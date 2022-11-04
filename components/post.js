@@ -5,8 +5,6 @@ import styles from "../styles/blog.module.css"
 
 export default function Post({post}) {
 
-    console.log(post)
-
     const { contenido, imagen, titulo, url, publishedAt } = post
 
   return (
