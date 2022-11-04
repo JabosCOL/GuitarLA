@@ -11,7 +11,7 @@ export default function Header() {
     <header className={styles.header}>
         <div className={`contenedor ${styles.barra}`}>
             <Link href="/">
-                <a>
+                <a className={styles.logo}>
                     <Image src="/img/logo.svg" width={300} height={40} alt="logo"/>
                 </a>
             </Link>
@@ -34,6 +34,11 @@ export default function Header() {
                 <Link href="/blog">
                     <a className={router.pathname === "/blog" ? styles.active : ""}>
                         Blog
+                    </a>
+                </Link>
+                <Link href="/carrito">
+                    <a className={router.pathname === "/carrito" ? styles.active : ""}>
+                        <Image width={30} height={25} src="/img/carrito.png" alt="Imagen carrito"/>
                     </a>
                 </Link>
             </nav>
