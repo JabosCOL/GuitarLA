@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from "react-toastify"
 import Image from "next/future/image"
 import styles from "../../styles/guitarras.module.css"
 import Layout from "../../components/layout"
@@ -7,7 +8,7 @@ export default function Producto({guitarra, agregarCarrito}) {
 
     const [cantidad, setCantidad] = useState(0)
     const { nombre, descripcion, imagen, precio } = guitarra[0].attributes
-    
+
     const handleSubmit = e => {
         e.preventDefault()
 
@@ -27,15 +28,18 @@ export default function Producto({guitarra, agregarCarrito}) {
 
         // Pasando la información
         agregarCarrito(guitarraSeleccionada)
+
+        // Agregando alerta
+        toast.success('Guitarras agregadas al carrito! 🤘')
     }
   return (
     <Layout
         title={`Guitarra ${nombre}`}
     >
         <div className={styles.guitarra}>
-            <Image 
-                src={imagen.data.attributes.url} 
-                alt={`Imagen guitarra ${nombre}`} 
+            <Image
+                src={imagen.data.attributes.url}
+                alt={`Imagen guitarra ${nombre}`}
                 width={600} height={400}
             />
             <div className={styles.contenido}>
@@ -43,12 +47,12 @@ export default function Producto({guitarra, agregarCarrito}) {
                 <p className={styles.descripcion}>{descripcion}</p>
                 <p className={styles.precio}>${precio}</p>
 
-                <form 
+                <form
                     onSubmit={handleSubmit}
                     className={styles.formulario}
                 >
                     <label htmlFor="cantidad">Cantidad:</label>
-                    <select 
+                    <select
                         onChange={ e => setCantidad(+e.target.value)}
                         id="cantidad">
                         <option value="0">-- Seleccione --</option>

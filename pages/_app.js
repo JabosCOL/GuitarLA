@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
@@ -10,12 +11,12 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     setPaginaLista(true)
   }, [])
-  
+
 
   useEffect(() => {
     localStorage.setItem('carrito', JSON.stringify(carrito))
   }, [carrito])
-  
+
 
   const agregarCarrito = guitarra => {
     // Comprobar si la guitarra ya esta en el carrito...
@@ -24,7 +25,7 @@ function MyApp({ Component, pageProps }) {
         const carritoActualizado = carrito.map( guitarraState => {
             if( guitarraState.id === guitarra.id ) {
                 guitarraState.cantidad = guitarra.cantidad;
-            } 
+            }
             return guitarraState;
         });
         // Se asigna al array
@@ -41,20 +42,24 @@ const eliminarProducto = id => {
     const carritoActualizado = carrito.filter( producto => producto.id != id)
     setCarrito(carritoActualizado)
     window.localStorage.setItem('carrito', JSON.stringify( carrito ));
+
+    // Mostrando alerta de guitarra eliminada
+    const guitarraEliminada = carrito.find( guitarra => guitarra.id === id)
+    toast.error(`Haz eliminado las guitarras ${guitarraEliminada.nombre}`)
 }
 
 const actualizarCantidad = guitarra => {
   const carritoActualizado = carrito.map( guitarraState => {
     if(guitarraState.id === guitarra.id ) {
       guitarraState.cantidad = parseInt( guitarra.cantidad )
-    } 
+    }
     return guitarraState
   })
   setCarrito(carritoActualizado)
   window.localStorage.setItem('carrito', JSON.stringify( carrito ));
 }
 
-  return paginaLista ? <Component {...pageProps} 
+  return paginaLista ? <Component {...pageProps}
     carrito={carrito}
     agregarCarrito={agregarCarrito}
     eliminarProducto={eliminarProducto}
