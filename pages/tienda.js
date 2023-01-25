@@ -10,10 +10,10 @@ export default function Tienda({guitarras}) {
     >
         <main className="contenedor">
           <h1 className="heading">Nuestra colección</h1>
-          
+
           <div className={styles.grid}>
             {guitarras?.map(guitarra => (
-              <Guitarra 
+              <Guitarra
                 key={guitarra.id}
                 guitarra={guitarra.attributes}
               />
@@ -25,7 +25,7 @@ export default function Tienda({guitarras}) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const respuesta = await fetch(`${process.env.API_URL}/guitarras?populate=imagen`)
   const {data: guitarras} = await respuesta.json()
   return {
