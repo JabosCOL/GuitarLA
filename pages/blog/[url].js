@@ -12,8 +12,8 @@ export default function Post({post}) {
         title={titulo}
     >
         <article className={`${styles['post']} ${styles['mt-3']}`}>
-            <Image src={imagen.data.attributes.url} 
-                alt={`Imagen blog ${titulo}`} 
+            <Image src={imagen.data.attributes.url}
+                alt={`Imagen blog ${titulo}`}
                 width={1000}
                 height={400}
             />
@@ -27,7 +27,21 @@ export default function Post({post}) {
   )
 }
 
-export async function getServerSideProps({query: {url}}) {
+export async function getStaticPaths() {
+    const respuesta = await fetch(`${process.env.API_URL}/posts`)
+    const { data } = await respuesta.json()
+    const paths = data.map(post => ({
+        params: {
+            url: post.attributes.url
+        }
+    }))
+    return {
+        paths,
+        fallback: false
+    }
+}
+
+export async function getStaticProps({params: {url}}) {
     const respuesta = await fetch(`${process.env.API_URL}/posts?filters[url]=${url}&populate=imagen`)
     const { data: post } = await respuesta.json()
     return {
